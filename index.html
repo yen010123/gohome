@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>還能見幾次</title>
+<meta name="description" content="輸入爸媽的年齡、一年回家幾次、一次待幾天，算算看還能見幾次面。">
+<link rel="canonical" href="https://gohome.ehmily.com/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:site_name" content="欸米粒 Em!ly">
+<meta property="og:title" content="還能見幾次">
+<meta property="og:description" content="輸入爸媽的年齡、一年回家幾次、一次待幾天，算算看還能見幾次面。">
+<meta property="og:url" content="https://gohome.ehmily.com/">
+<meta property="og:image" content="https://gohome.ehmily.com/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="還能見幾次：算算看，一年回家幾次，還能見爸媽幾次">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="還能見幾次">
+<meta name="twitter:description" content="輸入爸媽的年齡、一年回家幾次、一次待幾天，算算看還能見幾次面。">
+<meta name="twitter:image" content="https://gohome.ehmily.com/og.jpg">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&display=swap">
+<style>
+/* Layout: one centered column on beige paper. Doodle header, two parent cards, one trips card, a big result, a dot field. Everything drawn loosely, no hard frames. */
+:root {
+  --paper: #EFE8DA;
+  --ink: #33384D;
+  --muted: #5C6075;
+  --clay: #C0795B;
+  --coffee: #A5603C;
+  --sky: #7C93B5;
+  --sand: #E6C9A8;
+  --peach: #D9A27E;
+  --moss: #8C9A6C;
+  --card: rgba(255, 255, 255, 0.55);
+  --line: #D9A27E;
+  --grain: 0.32;
+  --chip: rgba(255, 255, 255, 0.35);
+  --peach-fill: #D9A27E;
+  --font: 'Huninn', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #262A3A;
+    --ink: #EFE8DA;
+    --muted: #B9B6AE;
+    --clay: #D9956F;
+    --coffee: #E3A87C;
+    --sky: #9DB1D1;
+    --sand: #6B5E50;
+    --peach: #B98560;
+    --moss: #A7B58A;
+    --card: rgba(255, 255, 255, 0.06);
+    --line: #8A6A52;
+    --grain: 0.18;
+    --chip: rgba(255, 255, 255, 0.07);
+    --peach-fill: #8A5E45;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #262A3A;
+  --ink: #EFE8DA;
+  --muted: #B9B6AE;
+  --clay: #D9956F;
+  --coffee: #E3A87C;
+  --sky: #9DB1D1;
+  --sand: #6B5E50;
+  --peach: #B98560;
+  --moss: #A7B58A;
+  --card: rgba(255, 255, 255, 0.06);
+  --line: #8A6A52;
+  --grain: 0.18;
+  --chip: rgba(255, 255, 255, 0.07);
+  --peach-fill: #8A5E45;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.7;
+  padding-block: 28px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.grain {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: var(--grain);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' seed='4'/><feColorMatrix values='0 0 0 0 0.45  0 0 0 0 0.38  0 0 0 0 0.3  0 0 0 0.9 0'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>");
+}
+.wrap { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+
+h1 {
+  margin: 0; text-align: center; color: var(--coffee);
+  font-weight: 400; font-size: clamp(44px, 13vw, 76px); line-height: 1.15; letter-spacing: 0.04em;
+  filter: url(#crayon);
+}
+.lede span { display: inline-block; }
+.lede { margin: 0 auto; max-width: 30em; text-align: center; color: var(--muted); text-wrap: balance; }
+.doodle { width: 100%; max-width: 520px; height: auto; margin: 0 auto; display: block; filter: url(#crayon); }
+
+.card { position: relative; isolation: isolate; padding: 22px 20px; min-width: 0; }
+.card::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  border: 2.5px solid var(--line); background: var(--card);
+  border-radius: 28px 12px 30px 14px / 14px 30px 12px 28px;
+  filter: url(#crayon);
+}
+.card h2 { margin: 0 0 14px; font-weight: 400; font-size: 22px; color: var(--coffee); letter-spacing: 0.04em; }
+.pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+@media (max-width: 560px) { .pair { grid-template-columns: minmax(0, 1fr); } }
+
+.field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.field > .label { font-size: 14px; color: var(--muted); letter-spacing: 0.04em; }
+.stepper { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.stepper button, .seg button {
+  font: inherit; cursor: pointer; color: var(--coffee); background: transparent;
+  border: 2.5px solid var(--clay);
+}
+.stepper button {
+  width: 42px; height: 42px; border-radius: 50% 46% 52% 48%; font-size: 24px; line-height: 1; padding: 0;
+}
+.stepper input {
+  width: 84px; text-align: center; font: inherit; font-size: 24px; color: var(--ink);
+  background: transparent; border: 0; border-bottom: 3px solid var(--peach); border-radius: 3px; padding: 2px 0;
+  -moz-appearance: textfield; appearance: textfield;
+}
+.stepper input::-webkit-outer-spin-button, .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.unit { color: var(--muted); }
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid var(--sky); outline-offset: 3px; }
+.stepper button:active, .seg button:active { transform: scale(0.94); }
+
+.seg { display: flex; gap: 8px; }
+.seg button { padding: 6px 18px; border-radius: 22px 14px 24px 12px / 14px 24px 12px 22px; font-size: 16px; }
+.seg button[aria-pressed="true"] { background: var(--clay); color: var(--paper); }
+
+.base { font-size: 14px; color: var(--muted); }
+.base b { font-weight: 400; color: var(--ink); }
+.years { margin: 4px 0 0; padding-top: 12px; border-top: 2.5px dotted var(--sand); }
+.years .num { font-size: 34px; color: var(--coffee); line-height: 1.2; }
+.years small { color: var(--muted); font-size: 14px; display: block; }
+
+.ref { text-align: center; font-size: 14px; color: var(--muted); margin: 0; text-wrap: balance; }
+.ref b { font-weight: 400; color: var(--ink); }
+.ref a, footer a { color: var(--coffee); text-underline-offset: 4px; text-decoration-thickness: 2px; }
+
+.hero { text-align: center; }
+.hero .kicker { margin: 0; color: var(--muted); }
+.hero .big {
+  font-size: clamp(76px, 26vw, 140px); line-height: 1.05; color: var(--coffee);
+  font-variant-numeric: tabular-nums; filter: url(#crayon);
+}
+.hero .big small { font-size: 0.3em; margin-left: 0.15em; letter-spacing: 0.1em; }
+.hero .sub { margin: 0 auto; max-width: 28em; text-wrap: balance; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 18px 0 4px; text-align: left; }
+@media (max-width: 480px) { .facts { grid-template-columns: minmax(0, 1fr); } }
+.fact { border-top: 2.5px dotted var(--sand); padding-top: 10px; }
+.fact .v { font-size: 26px; color: var(--ink); font-variant-numeric: tabular-nums; line-height: 1.3; }
+.fact .t { font-size: 14px; color: var(--muted); }
+
+.dots { display: flex; flex-wrap: wrap; gap: 7px; margin: 14px 0 10px; filter: url(#crayon); min-height: 18px; }
+.dot { width: 17px; height: 17px; border-radius: 48% 52% 45% 55% / 55% 45% 52% 48%; background: var(--clay); }
+.dot.one { background: var(--sky); }
+.more { align-self: center; color: var(--muted); font-size: 14px; }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; background: var(--clay); }
+.legend i.one { background: var(--sky); }
+
+.whatif { margin: 16px 0 0; padding: 12px 0 0; border-top: 2.5px dotted var(--sand); }
+.whatif b { font-weight: 400; color: var(--coffee); font-size: 20px; }
+.note { font-size: 14px; color: var(--muted); margin: 0; }
+footer { text-align: center; padding-top: 6px; color: var(--muted); font-size: 15px; }
+footer .made { font-size: 17px; }
+footer .privacy { font-size: 13px; margin-top: 8px; text-wrap: balance; }
+.name { width: 100%; font: inherit; font-size: 20px; color: var(--ink); background: transparent; border: 0; border-bottom: 3px solid var(--peach); border-radius: 3px; padding: 2px 0; }
+.who { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.who .label { font-size: 14px; color: var(--muted); letter-spacing: 0.04em; }
+.who .seg { flex-wrap: wrap; justify-content: center; }
+.pair.single { grid-template-columns: minmax(0, 1fr); max-width: 380px; width: 100%; margin: 0 auto; }
+.facts.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 560px) { .facts.three { grid-template-columns: minmax(0, 1fr); } }
+.seg { flex-wrap: wrap; }
+.seg button { white-space: nowrap; }
+.live {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; display: flex; justify-content: center;
+  padding-top: 8px;
+  padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background: var(--paper); border-top: 2.5px dotted var(--sand);
+}
+.live button { font: inherit; font-size: 17px; color: var(--ink); background: transparent; border: 0; cursor: pointer; padding: 6px 14px; min-height: 44px; }
+.live b { font-weight: 400; color: var(--coffee); font-size: 26px; font-variant-numeric: tabular-nums; margin: 0 4px; }
+.live span { color: var(--muted); font-size: 14px; margin-left: 8px; }
+.live button:focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; }
+@media (max-width: 900px) { body { padding-bottom: 96px; } }
+@media (min-width: 901px) { .live { display: none !important; } }
+.about { display: flex; flex-direction: column; gap: 10px; align-items: center; max-width: 26em; margin: 0 auto; padding: 4px 12px; text-align: center; font-size: 15px; line-height: 1.8; color: var(--muted); }
+.about p { margin: 0; text-wrap: balance; }
+.about span { display: inline-block; }
+.about .last { color: var(--ink); margin-top: 4px; }
+.subscribe { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+.subscribe-box { width: 100%; min-width: 0; }
+.subscribe .note { margin: 0; }
+.share { display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center; }
+.share h2 { margin: 0; }
+.share .seg { justify-content: center; }
+.share .label { font-size: 14px; color: var(--muted); letter-spacing: 0.04em; align-self: flex-start; }
+.share .note { max-width: 32em; text-wrap: balance; }
+.share-img { display: block; max-width: 100%; height: auto; background: var(--sand); border-radius: 18px 8px 20px 10px / 10px 20px 8px 18px; border: 2.5px solid var(--line); }
+.share-img[data-fmt="story"] { width: min(100%, 230px); aspect-ratio: 9 / 16; }
+.share-img[data-fmt="post"] { width: min(100%, 270px); aspect-ratio: 4 / 5; }
+.caption { width: 100%; font: inherit; font-size: 16px; line-height: 1.6; color: var(--ink); background: transparent; border: 2.5px dotted var(--sand); border-radius: 16px 8px 18px 10px / 10px 18px 8px 16px; padding: 10px 12px; resize: vertical; text-align: left; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; width: 100%; max-width: 480px; }
+.xbtn {
+  flex: 1 1 108px; min-width: 0; min-height: 96px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  padding: 10px 8px 12px; font: inherit; font-size: 15px; line-height: 1.3; text-align: center; text-decoration: none; text-wrap: balance;
+  color: var(--ink); background: var(--chip); border: 3px solid var(--ink); cursor: pointer;
+}
+.xbtn svg { width: 44px; height: 44px; flex: none; }
+.xbtn.primary { background: var(--peach-fill); border-width: 4px 3px 3px 4px; }
+.xbtn:active { background: var(--sand); }
+.xbtn:focus-visible { outline: 3px dashed var(--clay); outline-offset: 4px; }
+.xbtn.w1 { border-radius: 26px 22px 28px 20px / 22px 28px 20px 26px; transform: rotate(-0.8deg); }
+.xbtn.w2 { border-radius: 22px 28px 20px 26px / 26px 20px 28px 22px; transform: rotate(0.8deg); }
+.xbtn.w3 { border-radius: 20px 26px 18px 24px / 24px 18px 26px 20px; transform: rotate(-0.6deg); }
+.xbtn.w4 { border-radius: 24px 18px 26px 20px / 18px 26px 20px 24px; transform: rotate(0.6deg); }
+#share-msg { min-height: 1.7em; margin: 0; color: var(--coffee); }
+@media (prefers-reduced-motion: no-preference) { .stepper button, .seg button { transition: transform 0.1s; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="crayon" x="-4%" y="-6%" width="108%" height="112%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="3" result="w"/>
+      <feDisplacementMap in="SourceGraphic" in2="w" scale="3.5" result="d"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="8" result="g"/>
+      <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.7 1.55" result="ga"/>
+      <feComposite in="d" in2="ga" operator="in"/>
+    </filter>
+    <filter id="crayonSm" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.08" numOctaves="2" seed="5" result="w"/>
+      <feDisplacementMap in="SourceGraphic" in2="w" scale="2.6" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="7" result="g"/>
+      <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4.2 0 0 0 -1.05" result="m"/>
+      <feComposite in="d" in2="m" operator="in"/>
+    </filter>
+  </defs>
+</svg>
+<div class="grain" aria-hidden="true"></div>
+
+<main class="wrap">
+  <header>
+    <h1>還能見幾次</h1>
+    <svg class="doodle" viewBox="0 0 520 130" role="img" aria-label="手繪插圖：左邊是公司，右邊是家，中間一條回家的路線" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4">
+      <g transform="translate(520 0) scale(-1 1)">
+      <g stroke="var(--clay)">
+        <path d="M34 78 L78 40 L122 78"/>
+        <path d="M46 72 L46 112 L110 112 L110 72"/>
+        <path d="M70 112 L70 90 L86 90 L86 112"/>
+      </g>
+      <path d="M78 66 C74 60 66 62 68 68 C70 73 78 77 78 77 C78 77 86 73 88 68 C90 62 82 60 78 66 Z" stroke="var(--sky)" stroke-width="3"/>
+      <path d="M150 62 C230 -4 340 -4 410 60" stroke="var(--peach)" stroke-dasharray="3 12"/>
+      <g stroke="var(--sky)">
+        <path d="M410 112 L410 56 L450 56 L450 112"/>
+        <path d="M450 112 L450 76 L486 76 L486 112"/>
+        <path d="M420 70 L440 70 M420 86 L440 86 M460 90 L476 90"/>
+      </g>
+      <path d="M10 118 C80 110 130 124 200 116 S330 110 400 118 S480 124 512 116" stroke="var(--sand)" stroke-width="5"/>
+      </g>
+      <g stroke="var(--coffee)" stroke-width="3.5" transform="translate(-34 0)">
+        <path d="M262 14 L284 22 L262 30 L266 22 Z"/>
+        <path d="M266 22 L284 22"/>
+      </g>
+    </svg>
+    <p class="lede"><span>輸入爸媽現在的年齡，</span><span>再填你一年回家幾次、一次待幾天，</span><span>算算看還有幾次可以見面。</span><br><span>只有一位也能算，</span><span>稱呼也能改成阿公、阿嬤或其他你想見的人。</span></p>
+  </header>
+
+  <p class="ref">資料：內政部 114 年簡易生命表（2026 年 8 月公布）。出生時平均壽命，男 <b>77.93</b> 歲、女 <b>84.75</b> 歲、全體 <b>81.27</b> 歲。<a href="https://www.moi.gov.tw/News_Content.aspx?n=4&amp;s=340439" target="_blank" rel="noopener">來源</a></p>
+
+  <div class="who" role="group" aria-labelledby="who-l">
+    <span class="label" id="who-l">要算誰</span>
+    <div class="seg">
+      <button type="button" data-who="both" aria-pressed="true">爸爸和媽媽</button>
+      <button type="button" data-who="dad" aria-pressed="false">只算爸爸</button>
+      <button type="button" data-who="mom" aria-pressed="false">只算媽媽</button>
+    </div>
+  </div>
+
+  <section class="pair" id="parents" aria-label="爸媽的資料">
+    <div class="card" id="card-dad">
+      <h2 id="dad-title">爸爸</h2>
+      <div class="field">
+        <label class="label" for="dad-name">稱呼（可以改）</label>
+        <input class="name" id="dad-name" type="text" maxlength="8" value="爸爸" data-name="dad" autocomplete="off">
+      </div>
+      <div class="field">
+        <span class="label" id="dad-sex-l">性別（決定預設壽命）</span>
+        <div class="seg" role="group" aria-labelledby="dad-sex-l">
+          <button type="button" data-sex="dad.m" aria-pressed="true">男</button>
+          <button type="button" data-sex="dad.f" aria-pressed="false">女</button>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label" for="dad-age">現在幾歲</label>
+        <div class="stepper">
+          <button type="button" data-step="-1" data-for="dad-age" aria-label="爸爸年齡減一歲">−</button>
+          <input id="dad-age" type="number" inputmode="numeric" min="0" max="110" step="1" value="60" data-path="dad.age">
+          <button type="button" data-step="1" data-for="dad-age" aria-label="爸爸年齡加一歲">+</button>
+          <span class="unit">歲</span>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label" for="dad-adj">預期壽命加減</label>
+        <div class="stepper">
+          <button type="button" data-step="-1" data-for="dad-adj" aria-label="爸爸預期壽命減一歲">−</button>
+          <input id="dad-adj" type="number" inputmode="numeric" min="-30" max="30" step="1" value="0" data-path="dad.adj">
+          <button type="button" data-step="1" data-for="dad-adj" aria-label="爸爸預期壽命加一歲">+</button>
+          <span class="unit">歲</span>
+        </div>
+        <span class="base" id="dad-base"></span>
+      </div>
+      <div class="years">
+        <span class="num" id="dad-years">0</span>
+        <small id="dad-years-note"></small>
+      </div>
+    </div>
+
+    <div class="card" id="card-mom">
+      <h2 id="mom-title">媽媽</h2>
+      <div class="field">
+        <label class="label" for="mom-name">稱呼（可以改）</label>
+        <input class="name" id="mom-name" type="text" maxlength="8" value="媽媽" data-name="mom" autocomplete="off">
+      </div>
+      <div class="field">
+        <span class="label" id="mom-sex-l">性別（決定預設壽命）</span>
+        <div class="seg" role="group" aria-labelledby="mom-sex-l">
+          <button type="button" data-sex="mom.m" aria-pressed="false">男</button>
+          <button type="button" data-sex="mom.f" aria-pressed="true">女</button>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label" for="mom-age">現在幾歲</label>
+        <div class="stepper">
+          <button type="button" data-step="-1" data-for="mom-age" aria-label="媽媽年齡減一歲">−</button>
+          <input id="mom-age" type="number" inputmode="numeric" min="0" max="110" step="1" value="58" data-path="mom.age">
+          <button type="button" data-step="1" data-for="mom-age" aria-label="媽媽年齡加一歲">+</button>
+          <span class="unit">歲</span>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label" for="mom-adj">預期壽命加減</label>
+        <div class="stepper">
+          <button type="button" data-step="-1" data-for="mom-adj" aria-label="媽媽預期壽命減一歲">−</button>
+          <input id="mom-adj" type="number" inputmode="numeric" min="-30" max="30" step="1" value="0" data-path="mom.adj">
+          <button type="button" data-step="1" data-for="mom-adj" aria-label="媽媽預期壽命加一歲">+</button>
+          <span class="unit">歲</span>
+        </div>
+        <span class="base" id="mom-base"></span>
+      </div>
+      <div class="years">
+        <span class="num" id="mom-years">0</span>
+        <small id="mom-years-note"></small>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" aria-label="你回家的頻率">
+    <h2>你回家的頻率</h2>
+    <div class="pair">
+      <div class="field">
+        <label class="label" for="per-year">一年回家幾次（兩年一次填 0.5）</label>
+        <div class="stepper">
+          <button type="button" data-step="-0.5" data-for="per-year" aria-label="一年回家次數減少">−</button>
+          <input id="per-year" type="number" inputmode="decimal" min="0.5" max="12" step="0.5" value="1" data-path="perYear">
+          <button type="button" data-step="0.5" data-for="per-year" aria-label="一年回家次數增加">+</button>
+          <span class="unit">次</span>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label" for="days">一次待幾天</label>
+        <div class="stepper">
+          <button type="button" data-step="-1" data-for="days" aria-label="停留天數減一天">−</button>
+          <input id="days" type="number" inputmode="numeric" min="1" max="90" step="1" value="14" data-path="days">
+          <button type="button" data-step="1" data-for="days" aria-label="停留天數加一天">+</button>
+          <span class="unit">天</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card hero" id="result" aria-live="polite" aria-label="計算結果">
+    <p class="kicker" id="r-kicker">爸媽都在的情況下，你還能回去</p>
+    <div class="big"><span id="r-both">0</span><small>次</small></div>
+    <p class="sub" id="r-sub"></p>
+
+    <div class="facts" id="facts">
+      <div class="fact" id="f-any"><div class="v" id="r-any">0 次</div><div class="t">至少見到其中一位的次數</div></div>
+      <div class="fact"><div class="v" id="r-days">0 天</div><div class="t" id="r-days-t">兩位都在時，加起來能相處的天數</div></div>
+      <div class="fact"><div class="v" id="r-pct">0%</div><div class="t" id="r-pct-t">你每年有這個比例的日子跟爸媽在一起</div></div>
+      <div class="fact"><div class="v" id="r-years">0 年</div><div class="t" id="r-years-t">兩位都在的預估年數</div></div>
+    </div>
+
+    <div class="dots" id="dots" role="img" aria-label="剩餘見面次數的圓點圖"></div>
+    <div class="legend" id="legend"><span><i></i>兩位都在</span><span><i class="one"></i>只見得到一位</span></div>
+
+    <p class="whatif" id="whatif"></p>
+  </section>
+
+  <section class="about" aria-label="關於這個數字">
+    <p>這裡用的是出生時的平均壽命。</p>
+    <p><span>已經活到現在這個年紀的人，</span><span>平均還會再活得更久一些，</span><span>所以實際可能比算出來的多。</span></p>
+    <p>想抓寬一點，就把預期壽命往上加。</p>
+    <p class="last"><span>數字是用來提醒自己安排時間，</span><span>不是在預測誰的人生。</span></p>
+  </section>
+
+  <section class="subscribe" aria-label="訂閱電子報">
+    <div id="subscribe-box" class="subscribe-box">
+      <script async data-uid="4b45d71469" src="https://ehmily.kit.com/4b45d71469/index.js"></script>
+    </div>
+    <p id="subscribe-fallback" class="note" hidden>訂閱表單沒有顯示的話，請關閉廣告攔截器後重新整理頁面。</p>
+  </section>
+
+  <section class="card share" aria-label="分享結果">
+    <h2>分享給想一起算的人</h2>
+    <div class="seg" role="group" aria-label="圖片尺寸">
+      <button type="button" data-fmt="story" aria-pressed="true">限時動態</button>
+      <button type="button" data-fmt="post" aria-pressed="false">貼文、Threads</button>
+    </div>
+    <img id="share-img" class="share-img" data-fmt="story" alt="可以分享的結果圖片" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+    <p class="note">手機長按圖片、電腦按右鍵就能儲存，也可以直接截圖。圖片上只有次數和天數，不會出現年齡。</p>
+    <label class="label" for="share-text">一起分享的文字（可以改）</label>
+    <textarea id="share-text" class="caption" rows="4"></textarea>
+    <div class="actions">
+      <button id="share-native" class="xbtn primary w1" type="button" hidden><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g filter="url(#crayonSm)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M10,25 L10,39 C10,42 12,43 15,43 L33,43 C36,43 38,42 38,39 L38,25" stroke="#C0795B" stroke-width="3.6"/><path d="M24,31 C24,23 25,15 24,8" stroke="#7C93B5" stroke-width="3.6"/><path d="M16,15 C19,12 22,9 24,7 C26,9 30,12 33,15" stroke="#7C93B5" stroke-width="3.6"/></g></svg><span>分享圖片</span></button>
+      <a id="share-threads" class="xbtn w2" target="_blank" rel="noopener" href="https://www.threads.net/intent/post"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g filter="url(#crayonSm)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M8,13 C8,9 10,8 14,8 L35,8 C39,8 41,9 41,13 L41,28 C41,32 39,33 35,33 L23,33 L14,41 L15,33 C10,33 8,32 8,28 Z" stroke="#8C9A6C" stroke-width="3.6"/><path d="M16,21 C19,14 28,14 30,20 C31,25 25,26 24,22 C23,19 26,18 27,20" stroke="#C0795B" stroke-width="3.2"/></g></svg><span>分享到 Threads</span></a>
+      <a id="share-line" class="xbtn w3" target="_blank" rel="noopener" href="https://line.me/R/share"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g filter="url(#crayonSm)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M8,15 C8,10 11,8 15,8 L33,8 C37,8 40,10 40,15 L40,27 C40,32 37,34 33,34 L21,34 L13,41 L14,34 C10,34 8,32 8,27 Z" stroke="#7C93B5" stroke-width="3.6"/><path d="M17,21 L17.4,21.2 M24,21 L24.4,21.2 M31,21 L31.4,21.2" stroke="#C0795B" stroke-width="5"/></g></svg><span>傳到 LINE</span></a>
+      <button id="share-copy" class="xbtn w4" type="button"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g filter="url(#crayonSm)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M17,12 L17,9 C17,7 18,6 20,6 L38,6 C40,6 41,7 41,9 L41,29 C41,31 40,32 38,32 L35,32" stroke="#7C93B5" stroke-width="3.6"/><path d="M8,17 C8,15 9,14 11,14 L29,14 C31,14 32,15 32,17 L32,39 C32,41 31,42 29,42 L11,42 C9,42 8,41 8,39 Z" stroke="#C0795B" stroke-width="3.6"/><path d="M14,23 L26,23 M14,30 L23,30" stroke="#8C9A6C" stroke-width="3"/></g></svg><span>複製文字</span></button>
+    </div>
+    <p id="share-msg" class="note" role="status"></p>
+  </section>
+
+  <footer>
+    <div class="made">made by <a href="https://www.instagram.com/iam.ehmily/" target="_blank" rel="noopener">欸米粒 Em!ly</a></div>
+    <div class="privacy">這個頁面只統計瀏覽和按鈕點擊的次數。你輸入的年齡和稱呼不會被傳出去。訂閱表單由 Kit 提供，只會收到你填的 email。</div>
+  </footer>
+</main>
+
+<div class="live" id="live" hidden>
+  <button type="button" id="live-btn" aria-label="回到計算結果">還能見<b id="live-n">0</b>次<span>看結果 ↓</span></button>
+</div>
+
+<script>
+(function () {
+  var BASE = { m: 77.93, f: 84.75 };
+  var state = {
+    dad: { sex: 'm', age: 60, adj: 0, name: '爸爸' },
+    mom: { sex: 'f', age: 58, adj: 0, name: '媽媽' },
+    perYear: 1,
+    days: 14,
+    who: 'both'
+  };
+  var MAX_DOTS = 90;
+
+  function $(id) { return document.getElementById(id); }
+  function fmt(n) { return (Math.round(n * 100) / 100).toString(); }
+  function fmt1(n) { return (Math.round(n * 10) / 10).toString(); }
+  function clamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
+
+  function setPath(path, val) {
+    var p = path.split('.');
+    if (p.length === 2) state[p[0]][p[1]] = val; else state[p[0]] = val;
+  }
+
+  function years(p) {
+    var life = BASE[p.sex] + p.adj;
+    return { life: life, left: Math.max(0, life - p.age) };
+  }
+  function visits(y, perYear) { return Math.floor(y * perYear + 1e-9); }
+
+  function parentView(key, label) {
+    var p = state[key];
+    var r = years(p);
+    var base = BASE[p.sex];
+    var adjTxt = p.adj === 0 ? '' : (p.adj > 0 ? ' + ' + p.adj : ' − ' + Math.abs(p.adj));
+    $(key + '-base').innerHTML = '預設 ' + fmt(base) + ' 歲' + adjTxt + '，預期 <b>' + fmt(r.life) + ' 歲</b>';
+    $(key + '-years').textContent = '約 ' + fmt1(r.left) + ' 年';
+    $(key + '-years-note').textContent = r.left > 0
+      ? '照這個頻率還能見' + visits(r.left, state.perYear) + ' 次'
+      : '已經超過預期壽命，平均只是平均，可以把預期壽命往上調';
+    return r;
+  }
+
+  function render() {
+    var d = parentView('dad');
+    var m = parentView('mom');
+    var perYear = state.perYear, days = state.days;
+    var who = state.who, single = who !== 'both';
+    var name = state[who === 'dad' ? 'dad' : 'mom'].name;
+
+    ['dad', 'mom'].forEach(function (k) {
+      var n = state[k].name;
+      $(k + '-title').textContent = n;
+      var bs = $('card-' + k).querySelectorAll('button[data-for]');
+      for (var q = 0; q < bs.length; q++) {
+        var isAge = bs[q].getAttribute('data-for') === k + '-age';
+        var up = parseFloat(bs[q].getAttribute('data-step')) > 0;
+        bs[q].setAttribute('aria-label', n + (isAge ? '年齡' : '預期壽命') + (up ? '加' : '減') + '一歲');
+      }
+    });
+    document.querySelector('[data-who="both"]').textContent = state.dad.name + '和' + state.mom.name;
+    document.querySelector('[data-who="dad"]').textContent = '只算' + state.dad.name;
+    document.querySelector('[data-who="mom"]').textContent = '只算' + state.mom.name;
+
+    var vd = visits(d.left, perYear), vm = visits(m.left, perYear);
+    var both, any, bothYears;
+    if (who === 'dad') { both = vd; any = vd; bothYears = d.left; }
+    else if (who === 'mom') { both = vm; any = vm; bothYears = m.left; }
+    else { both = Math.min(vd, vm); any = Math.max(vd, vm); bothYears = Math.min(d.left, m.left); }
+
+    $('card-dad').hidden = who === 'mom';
+    $('card-mom').hidden = who === 'dad';
+    $('parents').className = 'pair' + (single ? ' single' : '');
+    $('f-any').hidden = single;
+    $('legend').hidden = single;
+    $('facts').className = 'facts' + (single ? ' three' : '');
+    $('r-kicker').textContent = single ? '照現在的設定，你還能回去見' + name : '兩位都在的情況下，你還能回去';
+    $('r-days-t').textContent = single ? '加起來能和' + name + '相處的天數' : '兩位都在時，加起來能相處的天數';
+    $('r-pct-t').textContent = single ? '你每年有這個比例的日子跟' + name + '在一起' : '你每年有這個比例的日子跟他們在一起';
+    $('r-years-t').textContent = single ? '預估還有的年數' : '兩位都在的預估年數';
+
+    var pct = clamp(perYear * days / 365 * 100, 0, 100);
+
+    $('r-both').textContent = both;
+    $('r-any').textContent = any + ' 次';
+    $('r-days').textContent = (both * days) + ' 天';
+    $('r-pct').textContent = fmt1(pct) + '%';
+    $('r-years').textContent = fmt1(bothYears) + ' 年';
+
+    var sub = '';
+    if (both === 0 && any === 0) sub = '用現在的設定，已經沒有剩餘次數了。調整一下預期壽命，或把年齡再確認一次。';
+    else if (single) sub = '一年回 ' + fmt(perYear) + ' 次、每次 ' + days + ' 天，大概是這樣的數字。';
+    else if (both === 0) sub = '兩位都在的次數是 0，但至少見得到一位的次數還有 ' + any + ' 次。';
+    else sub = '一年回 ' + fmt(perYear) + ' 次、每次 ' + days + ' 天，大概是這樣的數字。';
+    $('r-sub').textContent = sub;
+
+    var html = '';
+    var shown = Math.min(any, MAX_DOTS);
+    for (var i = 0; i < shown; i++) html += '<span class="dot' + (i < both ? '' : ' one') + '"></span>';
+    if (any > MAX_DOTS) html += '<span class="more">…還有 ' + (any - MAX_DOTS) + ' 個</span>';
+    if (any === 0) html = '<span class="more">這裡沒有圓點</span>';
+    $('dots').innerHTML = html;
+
+    var more = single ? visits(bothYears, perYear + 1)
+      : Math.min(visits(d.left, perYear + 1), visits(m.left, perYear + 1));
+    var what = single ? '還能見' + name + '的次數' : '兩位都在的次數';
+    $('whatif').innerHTML = (both > 0 || more > 0)
+      ? '每年多回一趟（變成 ' + fmt(perYear + 1) + ' 次），' + what + '會從 ' + both + ' 次變成 <b>' + more + ' 次</b>。'
+      : '';
+
+    $('live-n').textContent = both;
+    share.data = { both: both, any: any, single: single, who: who, perYear: perYear, days: days };
+    scheduleShare();
+  }
+
+  function commit(input) {
+    var step = parseFloat(input.step) || 1;
+    var lo = parseFloat(input.min), hi = parseFloat(input.max);
+    var v = parseFloat(input.value);
+    if (isNaN(v)) return;
+    v = clamp(Math.round(v / step) * step, lo, hi);
+    setPath(input.getAttribute('data-path'), v);
+    return v;
+  }
+
+  document.addEventListener('input', function (e) {
+    var t = e.target;
+    if (t.hasAttribute && t.hasAttribute('data-name')) {
+      var k = t.getAttribute('data-name');
+      state[k].name = t.value.trim() || (k === 'dad' ? '爸爸' : '媽媽');
+      render();
+      return;
+    }
+    if (t.matches && t.matches('input[data-path]')) {
+      var v = parseFloat(t.value);
+      if (isNaN(v)) return;
+      var lo = parseFloat(t.min), hi = parseFloat(t.max);
+      setPath(t.getAttribute('data-path'), clamp(v, lo, hi));
+      render();
+    }
+  });
+  document.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.matches && t.matches('input[data-path]')) {
+      var v = commit(t);
+      if (v !== undefined) t.value = v;
+      render();
+    }
+  });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('button') : null;
+    if (!b) return;
+    if (b.hasAttribute('data-for')) {
+      var input = $(b.getAttribute('data-for'));
+      var cur = parseFloat(input.value);
+      if (isNaN(cur)) cur = parseFloat(input.min) || 0;
+      input.value = cur + parseFloat(b.getAttribute('data-step'));
+      var v = commit(input);
+      if (v !== undefined) input.value = v;
+      render();
+    } else if (b.hasAttribute('data-who')) {
+      state.who = b.getAttribute('data-who');
+      var wg = b.parentNode.querySelectorAll('button');
+      for (var j = 0; j < wg.length; j++) {
+        wg[j].setAttribute('aria-pressed', wg[j] === b ? 'true' : 'false');
+      }
+      render();
+    } else if (b.hasAttribute('data-sex')) {
+      var parts = b.getAttribute('data-sex').split('.');
+      state[parts[0]].sex = parts[1];
+      var group = b.parentNode.querySelectorAll('button');
+      for (var i = 0; i < group.length; i++) {
+        group[i].setAttribute('aria-pressed', group[i] === b ? 'true' : 'false');
+      }
+      render();
+    }
+  });
+
+  /* ---------- 分享 ---------- */
+  var SHARE_URL = 'https://gohome.ehmily.com/?utm_source=share'; // 別人分享出去的網址，帶 utm_source 方便在統計裡分辨
+  var share = { fmt: 'story', data: null, timer: 0, token: 0, blob: null, edited: false };
+
+  function shareUrl() { return SHARE_URL || location.href.split('#')[0]; }
+  function rng(seed) {
+    return function () {
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  function whoLabel(d) {
+    return d.who === 'both' ? state.dad.name + '和' + state.mom.name : (d.who === 'dad' ? state.dad.name : state.mom.name);
+  }
+  function captionText(d) {
+    if (d.both <= 0) return '我用這個小工具算了一下回家的頻率，你也來算算看';
+    var who = whoLabel(d);
+    var line = d.single
+      ? '照現在的頻率，我還能回家見' + who + ' ' + d.both + ' 次。'
+      : '照現在的頻率，' + who + '都在的話，我還能回家見面 ' + d.both + ' 次。';
+    return line + '你也來算算看';
+  }
+  function syncLinks() {
+    var v = $('share-text').value;
+    $('share-threads').href = 'https://www.threads.net/intent/post?text=' + encodeURIComponent(v);
+    $('share-line').href = 'https://line.me/R/share?text=' + encodeURIComponent(v);
+  }
+  function say(msg) { $('share-msg').textContent = msg; }
+
+  var FONT = '"Huninn", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif';
+  function draw(fmt, d) {
+    var W = 1080, H = fmt === 'story' ? 1920 : 1350;
+    var L = fmt === 'story'
+      ? { title: 330, kick: 600, big: 880, size: 380, who: 1120, freq: 1215, days: 1285, dots: 1395, line: 1565, made: 1640 }
+      : { title: 160, kick: 310, big: 560, size: 300, who: 735, freq: 822, days: 888, dots: 985, line: 1175, made: 1255 };
+    var C = { paper: '#EFE8DA', ink: '#33384D', muted: '#5C6075', clay: '#C0795B', coffee: '#A5603C', sky: '#7C93B5', sand: '#E6C9A8' };
+    var r = rng(11), i;
+
+    var out = document.createElement('canvas'); out.width = W; out.height = H;
+    var o = out.getContext('2d');
+    o.fillStyle = C.paper; o.fillRect(0, 0, W, H);
+    for (i = 0; i < 5; i++) {
+      var bx = r() * W, by = r() * H, br = 250 + r() * 300;
+      var g = o.createRadialGradient(bx, by, 0, bx, by, br);
+      g.addColorStop(0, 'rgba(230,201,168,0.28)'); g.addColorStop(1, 'rgba(230,201,168,0)');
+      o.fillStyle = g; o.fillRect(0, 0, W, H);
+    }
+    o.fillStyle = 'rgba(110,88,64,0.07)';
+    for (i = 0; i < W * H / 70; i++) o.fillRect(r() * W, r() * H, 1.6, 1.6);
+
+    var c = document.createElement('canvas'); c.width = W; c.height = H;
+    var x = c.getContext('2d');
+    x.textAlign = 'center'; x.textBaseline = 'middle';
+    function font(s) { return '400 ' + s + 'px ' + FONT; }
+    function fit(t, s, maxW) { x.font = font(s); while (s > 28 && x.measureText(t).width > maxW) { s -= 2; x.font = font(s); } return s; }
+    function ink(t, py, size, color) {
+      size = fit(t, size, W - 140); x.font = font(size); x.fillStyle = color;
+      x.fillText(t, W / 2, py);
+      x.globalAlpha = 0.55; x.fillText(t, W / 2 + 1.6, py + 1.2); x.globalAlpha = 1;
+    }
+
+    ink('還能見幾次', L.title, 100, C.coffee);
+    ink('照現在的頻率', L.kick, 48, C.muted);
+
+    var num = String(d.both), cs = Math.round(L.size * 0.28), gap = 18;
+    x.font = font(L.size); var wN = x.measureText(num).width;
+    x.font = font(cs); var wC = x.measureText('次').width;
+    var sx = (W - (wN + gap + wC)) / 2;
+    x.textAlign = 'left'; x.fillStyle = C.coffee;
+    x.font = font(L.size);
+    x.fillText(num, sx, L.big); x.globalAlpha = 0.55; x.fillText(num, sx + 2.4, L.big + 1.6); x.globalAlpha = 1;
+    x.font = font(cs);
+    x.fillText('次', sx + wN + gap, L.big + L.size * 0.24); x.globalAlpha = 0.55; x.fillText('次', sx + wN + gap + 1.6, L.big + L.size * 0.24 + 1.2); x.globalAlpha = 1;
+    x.textAlign = 'center';
+
+    ink(d.single ? '回家見 ' + whoLabel(d) : '回家見 ' + whoLabel(d) + '（兩位都在）', L.who, 54, C.ink);
+    ink('一年回家 ' + fmt1(d.perYear) + ' 次・一次 ' + d.days + ' 天', L.freq, 44, C.muted);
+    if (d.both > 0) ink('加起來大約 ' + (d.both * d.days) + ' 天', L.days, 44, C.muted);
+
+    var n = Math.min(d.any, 60), step = 46, perRow = Math.floor((W - 200) / step), rows = Math.ceil(n / perRow);
+    for (i = 0; i < n; i++) {
+      var row = Math.floor(i / perRow), inRow = Math.min(perRow, n - row * perRow);
+      var cx = W / 2 - (inRow - 1) * step / 2 + (i - row * perRow) * step + (r() - 0.5) * 4;
+      var cy = L.dots + row * step + (r() - 0.5) * 4;
+      x.fillStyle = (!d.single && i >= d.both) ? C.sky : C.clay;
+      x.beginPath(); x.ellipse(cx, cy, 15 + r() * 2, 15 + r() * 2, r() * 3, 0, Math.PI * 2); x.fill();
+    }
+    if (d.any > 60) ink('…還有 ' + (d.any - 60) + ' 個', L.dots + rows * step, 34, C.muted);
+
+    x.strokeStyle = C.sand; x.lineWidth = 12; x.lineCap = 'round';
+    x.beginPath(); x.moveTo(90, L.line);
+    for (var px = 90; px < W - 90; px += 60) x.quadraticCurveTo(px + 30, L.line + (r() - 0.5) * 22, px + 60, L.line + (r() - 0.5) * 10);
+    x.stroke();
+
+    ink('made by 欸米粒 Em!ly', L.made, 40, C.muted);
+
+    x.globalCompositeOperation = 'destination-out'; x.fillStyle = '#000';
+    for (i = 0; i < W * H / 45; i++) { x.globalAlpha = 0.25 + r() * 0.5; x.fillRect(r() * W, r() * H, 1.8, 1.8); }
+    x.globalAlpha = 1; x.globalCompositeOperation = 'source-over';
+    o.drawImage(c, 0, 0);
+    return out;
+  }
+
+  function renderShare() {
+    var d = share.data; if (!d) return;
+    var token = ++share.token;
+    var sample = '還能見幾次照現在的頻率次回家見和兩位都在一年天加起來大約還有個made by 欸米粒 Em!ly0123456789・（）…' + state.dad.name + state.mom.name;
+    var ready = (document.fonts && document.fonts.load) ? document.fonts.load('400 40px Huninn', sample).catch(function () {}) : Promise.resolve();
+    ready.then(function () {
+      if (token !== share.token) return;
+      var cv = draw(share.fmt, d);
+      $('share-img').src = cv.toDataURL('image/jpeg', 0.92);
+      cv.toBlob(function (b) { if (token === share.token) share.blob = b; }, 'image/jpeg', 0.92);
+    });
+  }
+  function scheduleShare() {
+    clearTimeout(share.timer);
+    share.timer = setTimeout(function () {
+      if (!share.edited && share.data) $('share-text').value = captionText(share.data) + '\n' + shareUrl();
+      syncLinks();
+      renderShare();
+    }, 250);
+  }
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('button') : null;
+    if (!b) return;
+    if (b.hasAttribute('data-fmt')) {
+      share.fmt = b.getAttribute('data-fmt');
+      $('share-img').setAttribute('data-fmt', share.fmt);
+      var gs = b.parentNode.querySelectorAll('button');
+      for (var k = 0; k < gs.length; k++) gs[k].setAttribute('aria-pressed', gs[k] === b ? 'true' : 'false');
+      renderShare();
+    } else if (b.id === 'share-copy') {
+      var ta = $('share-text');
+      var done = function () { say('已複製'); };
+      var fallback = function () { ta.focus(); ta.select(); say('已選取文字，請手動複製'); };
+      try { navigator.clipboard.writeText(ta.value).then(done, fallback); } catch (err) { fallback(); }
+    } else if (b.id === 'share-native') {
+      var text = $('share-text').value;
+      var data = { text: text };
+      try {
+        if (share.blob) {
+          var file = new File([share.blob], '還能見幾次.jpg', { type: 'image/jpeg' });
+          if (navigator.canShare && navigator.canShare({ files: [file] })) data = { files: [file], text: text };
+        }
+        navigator.share(data).catch(function (err) {
+          if (err && err.name === 'AbortError') return;
+          $('share-native').hidden = true;
+          say('沒辦法直接分享，請長按圖片儲存，或用其他按鈕。');
+        });
+      } catch (err2) { $('share-native').hidden = true; say('沒辦法直接分享，請長按圖片儲存，或用其他按鈕。'); }
+    }
+  });
+  document.addEventListener('input', function (e) {
+    if (e.target.id === 'share-text') { share.edited = true; syncLinks(); }
+  });
+  function canNativeShare() {
+    try {
+      var pp = document.permissionsPolicy || document.featurePolicy;
+      if (pp && pp.allowsFeature && !pp.allowsFeature('web-share')) return false;
+      if (!navigator.share || !navigator.canShare) return false;
+      return navigator.canShare({ files: [new File(['x'], 'a.jpg', { type: 'image/jpeg' })] });
+    } catch (e) { return false; }
+  }
+  $('share-native').hidden = !canNativeShare();
+
+  var live = $('live');
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) {
+      var e = es[es.length - 1];
+      live.hidden = !(!e.isIntersecting && e.boundingClientRect.top > 0);
+    }, { threshold: 0.15 }).observe($('result'));
+  }
+  $('live-btn').addEventListener('click', function () {
+    var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    $('result').scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'start' });
+  });
+
+  /* ---------- 統計（Umami）：只記次數，不記任何輸入的內容 ---------- */
+  var UMAMI_ID = ''; // 在 umami.is 建立網站後，把「網站 ID」貼在這兩個引號中間
+  if (UMAMI_ID) {
+    var us = document.createElement('script');
+    us.defer = true; us.src = 'https://cloud.umami.is/script.js';
+    us.setAttribute('data-website-id', UMAMI_ID);
+    us.setAttribute('data-domains', 'gohome.ehmily.com');
+    document.head.appendChild(us);
+  }
+  function track(name, data) { try { if (window.umami && window.umami.track) window.umami.track(name, data); } catch (e) {} }
+  var started = false;
+  function markStart() { if (!started) { started = true; track('start'); } }
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest ? e.target.closest('button, a') : null;
+    if (!t) return;
+    if (t.hasAttribute('data-for') || t.hasAttribute('data-sex') || t.hasAttribute('data-who')) markStart();
+    if (t.hasAttribute('data-who')) track('mode', { mode: t.getAttribute('data-who') === 'both' ? 'both' : 'single' });
+    if (t.hasAttribute('data-fmt')) track('share-format', { format: t.getAttribute('data-fmt') });
+    if (t.id === 'share-threads' || t.id === 'share-line' || t.id === 'share-copy' || t.id === 'share-native') track(t.id, { format: share.fmt });
+  });
+  document.addEventListener('input', function (e) {
+    var t = e.target;
+    if (t.matches && (t.matches('input[data-path]') || t.matches('input[data-name]'))) markStart();
+  });
+  document.addEventListener('submit', function (e) {
+    var t = e.target;
+    if (t && t.closest && t.closest('#subscribe-box')) track('subscribe-submit');
+  }, true);
+
+  setTimeout(function () {
+    var box = $('subscribe-box');
+    if (box && !box.querySelector('form, .formkit-form')) $('subscribe-fallback').hidden = false;
+  }, 4000);
+
+  render();
+})();
+</script>
+</body>
+</html>
