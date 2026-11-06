@@ -425,7 +425,7 @@ footer .privacy { font-size: 13px; margin-top: 8px; text-wrap: balance; }
 
   <section class="subscribe" aria-label="訂閱電子報">
     <div id="subscribe-box" class="subscribe-box">
-      <script async data-uid="4b45d71469" src="https://ehmily.kit.com/4b45d71469/index.js"></script>
+      <script async data-uid="3fce44a641" src="https://ehmily.kit.com/3fce44a641/index.js"></script>
     </div>
     <p id="subscribe-fallback" class="note" hidden>訂閱表單沒有顯示的話，請關閉廣告攔截器後重新整理頁面。</p>
   </section>
@@ -847,7 +847,7 @@ footer .privacy { font-size: 13px; margin-top: 8px; text-wrap: balance; }
 
   setTimeout(function () {
     var box = $('subscribe-box');
-    if (box && !document.querySelector('form.formkit-form, .formkit-form, [class*="formkit"], [data-sv-form]')) $('subscribe-fallback').hidden = false;
+    if (box && !box.querySelector('form, .formkit-form')) $('subscribe-fallback').hidden = false;
   }, 4000);
 
   // Kit 的表單如果是「頂部固定橫幅」樣式，會蓋住頁面最上面：
