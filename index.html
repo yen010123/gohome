@@ -87,7 +87,8 @@ body {
   font-family: var(--font);
   font-size: 16px;
   line-height: 1.7;
-  padding-block: 28px 56px;
+  padding-block: calc(28px + var(--bar-h, 0px)) 56px;
+  transition: padding-top .2s;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
@@ -846,8 +847,41 @@ footer .privacy { font-size: 13px; margin-top: 8px; text-wrap: balance; }
 
   setTimeout(function () {
     var box = $('subscribe-box');
-    if (box && !box.querySelector('form, .formkit-form')) $('subscribe-fallback').hidden = false;
+    if (box && !document.querySelector('form.formkit-form, .formkit-form, [class*="formkit"], [data-sv-form]')) $('subscribe-fallback').hidden = false;
   }, 4000);
+
+  // Kit 的表單如果是「頂部固定橫幅」樣式，會蓋住頁面最上面：
+  // 量出橫幅高度，把內容往下推，並讓橫幅疊在最上層。
+  (function () {
+    var root = document.documentElement;
+    function isOurs(el) {
+      return el.tagName === 'SCRIPT' || el.tagName === 'STYLE' || el.tagName === 'svg' || el.tagName === 'SVG' ||
+        el.classList.contains('grain') || el.classList.contains('live') || el.classList.contains('wrap');
+    }
+    function check() {
+      var h = 0, kids = document.body.children;
+      for (var i = 0; i < kids.length; i++) {
+        var el = kids[i];
+        if (isOurs(el)) continue;
+        var cs = getComputedStyle(el);
+        if ((cs.position === 'fixed' || cs.position === 'sticky') && cs.display !== 'none' && cs.visibility !== 'hidden') {
+          var r = el.getBoundingClientRect();
+          if (r.top <= 2 && r.height > 0 && r.height < 240 && r.width >= window.innerWidth * 0.8) {
+            if (cs.zIndex !== '1000') el.style.zIndex = '1000';
+            h = Math.max(h, Math.ceil(r.bottom));
+          }
+        }
+      }
+      var v = h + 'px';
+      if (root.style.getPropertyValue('--bar-h') !== v) root.style.setProperty('--bar-h', v);
+    }
+    try {
+      new MutationObserver(check).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class', 'hidden'] });
+    } catch (e) {}
+    window.addEventListener('resize', check);
+    var n = 0, t = setInterval(function () { check(); if (++n > 40) clearInterval(t); }, 500);
+    check();
+  })();
 
   render();
 })();
