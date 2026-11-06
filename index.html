@@ -210,6 +210,23 @@ footer .privacy { font-size: 13px; margin-top: 8px; text-wrap: balance; }
 .subscribe { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
 .subscribe-box { width: 100%; min-width: 0; }
 .subscribe .note { margin: 0; }
+/* Kit 表單：換成小滑蠟筆風格 */
+#subscribe-box .formkit-form { max-width: 100% !important; width: 100% !important; margin: 0 auto !important; background: var(--card) !important; border: 2.5px solid var(--line) !important; border-radius: 28px 12px 30px 14px / 14px 30px 12px 28px !important; box-shadow: none !important; font-family: var(--font) !important; color: var(--ink) !important; overflow: hidden; }
+#subscribe-box .formkit-form .formkit-background { background: transparent !important; opacity: 0 !important; }
+#subscribe-box .formkit-form [data-style="minimal"], #subscribe-box .formkit-form > div { font-family: var(--font) !important; }
+#subscribe-box .formkit-form h2, #subscribe-box .formkit-form .formkit-header * { font-family: var(--font) !important; font-weight: 400 !important; color: var(--coffee) !important; letter-spacing: 0.04em; }
+#subscribe-box .formkit-form .formkit-subheader, #subscribe-box .formkit-form .formkit-subheader * { font-family: var(--font) !important; color: var(--muted) !important; }
+#subscribe-box .formkit-form .formkit-input { font-family: var(--font) !important; font-size: 16px !important; color: var(--ink) !important; background: var(--paper) !important; border: 2.5px solid var(--line) !important; border-radius: 16px 10px 18px 12px / 12px 18px 10px 16px !important; box-shadow: none !important; }
+#subscribe-box .formkit-form .formkit-input::placeholder { color: var(--muted) !important; opacity: 0.8; }
+#subscribe-box .formkit-form .formkit-input:focus { outline: 3px solid var(--sky) !important; outline-offset: 2px; }
+#subscribe-box .formkit-form .formkit-submit { font-family: var(--font) !important; font-size: 17px !important; color: var(--ink) !important; background: var(--peach-fill) !important; border: 3px solid var(--ink) !important; border-width: 4px 3px 3px 4px !important; border-radius: 26px 22px 28px 20px / 22px 28px 20px 26px !important; box-shadow: none !important; min-height: 44px; cursor: pointer; transform: rotate(-0.6deg); }
+#subscribe-box .formkit-form .formkit-submit > span, #subscribe-box .formkit-form .formkit-submit span { background: transparent !important; color: var(--ink) !important; font-family: var(--font) !important; }
+#subscribe-box .formkit-form .formkit-submit:hover > span, #subscribe-box .formkit-form .formkit-submit:hover { background: var(--peach-fill) !important; }
+#subscribe-box .formkit-form .formkit-submit:active { background: var(--sand) !important; }
+#subscribe-box .formkit-form .formkit-submit:focus-visible { outline: 3px dashed var(--clay) !important; outline-offset: 4px; }
+#subscribe-box .formkit-form .formkit-guarantee, #subscribe-box .formkit-form .formkit-guarantee * { font-family: var(--font) !important; color: var(--muted) !important; font-size: 13px !important; }
+#subscribe-box .formkit-form .formkit-powered-by-convertkit-container { opacity: 0.6; }
+#subscribe-box .formkit-form .formkit-alert { font-family: var(--font) !important; }
 .share { display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center; }
 .share h2 { margin: 0; }
 .share .seg { justify-content: center; }
