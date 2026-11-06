@@ -188,6 +188,10 @@ footer .privacy { font-size: 13px; margin-top: 8px; text-wrap: balance; }
 .facts.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 @media (max-width: 560px) { .facts.three { grid-template-columns: minmax(0, 1fr); } }
 .seg { flex-wrap: wrap; }
+.goto-wrap { display: flex; justify-content: center; margin-top: 6px; }
+.goto { font: inherit; font-size: 16px; cursor: pointer; color: var(--coffee); background: var(--chip); border: 2.5px solid var(--clay); border-radius: 24px 16px 26px 14px / 16px 26px 14px 24px; padding: 8px 22px; min-height: 44px; transform: rotate(-0.6deg); white-space: nowrap; }
+.goto:active { background: var(--sand); transform: rotate(-0.6deg) scale(0.96); }
+.goto:focus-visible { outline: 3px dashed var(--clay); outline-offset: 4px; }
 .seg button { white-space: nowrap; }
 .live {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; display: flex; justify-content: center;
@@ -432,9 +436,18 @@ footer .privacy { font-size: 13px; margin-top: 8px; text-wrap: balance; }
     <div class="legend" id="legend"><span><i></i>兩位都在</span><span><i class="one"></i>只見得到一位</span></div>
 
     <p class="whatif" id="whatif"></p>
+
+    <div class="goto-wrap"><button type="button" id="goto-share" class="goto">分享這個結果 ↓</button></div>
   </section>
 
-  <section class="card share" aria-label="分享結果">
+  <section class="about" aria-label="關於這個數字">
+    <p>這裡用的是出生時的平均壽命。</p>
+    <p><span>已經活到現在這個年紀的人，</span><span>平均還會再活得更久一些，</span><span>所以實際可能比算出來的多。</span></p>
+    <p>想抓寬一點，就把預期壽命往上加。</p>
+    <p class="last"><span>數字是用來提醒自己安排時間，</span><span>不是在預測誰的人生。</span></p>
+  </section>
+
+  <section class="card share" id="share" aria-label="分享結果">
     <h2>分享給想一起算的人</h2>
     <div class="seg" role="group" aria-label="圖片尺寸">
       <button type="button" data-fmt="story" aria-pressed="true">限時動態</button>
@@ -453,24 +466,17 @@ footer .privacy { font-size: 13px; margin-top: 8px; text-wrap: balance; }
     <p id="share-msg" class="note" role="status"></p>
   </section>
 
-  <footer>
-    <div class="made">made by <a href="https://www.instagram.com/iam.ehmily/" target="_blank" rel="noopener">欸米粒 Em!ly</a></div>
-    <div class="privacy">這個頁面只統計瀏覽和按鈕點擊的次數。你輸入的年齡和稱呼不會被傳出去。訂閱表單由 Kit 提供，只會收到你填的 email。</div>
-  </footer>
-
-  <section class="about" aria-label="關於這個數字">
-    <p>這裡用的是出生時的平均壽命。</p>
-    <p><span>已經活到現在這個年紀的人，</span><span>平均還會再活得更久一些，</span><span>所以實際可能比算出來的多。</span></p>
-    <p>想抓寬一點，就把預期壽命往上加。</p>
-    <p class="last"><span>數字是用來提醒自己安排時間，</span><span>不是在預測誰的人生。</span></p>
-  </section>
-
   <section class="subscribe" aria-label="訂閱電子報">
     <div id="subscribe-box" class="subscribe-box">
       <script async data-uid="3fce44a641" src="https://ehmily.kit.com/3fce44a641/index.js"></script>
     </div>
     <p id="subscribe-fallback" class="note" hidden>訂閱表單沒有顯示的話，請關閉廣告攔截器後重新整理頁面。</p>
   </section>
+
+  <footer>
+    <div class="made">made by <a href="https://www.instagram.com/iam.ehmily/" target="_blank" rel="noopener">欸米粒 Em!ly</a></div>
+    <div class="privacy">這個頁面只統計瀏覽和按鈕點擊的次數。你輸入的年齡和稱呼不會被傳出去。訂閱表單由 Kit 提供，只會收到你填的 email。</div>
+  </footer>
 </main>
 
 <div class="live" id="live" hidden>
@@ -829,6 +835,11 @@ footer .privacy { font-size: 13px; margin-top: 8px; text-wrap: balance; }
       live.hidden = !(!e.isIntersecting && e.boundingClientRect.top > 0);
     }, { threshold: 0.15 }).observe($('result'));
   }
+  $('goto-share').addEventListener('click', function () {
+    var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    $('share').scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'start' });
+    track('goto-share');
+  });
   $('live-btn').addEventListener('click', function () {
     var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     $('result').scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'start' });
