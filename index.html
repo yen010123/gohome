@@ -214,7 +214,8 @@ footer .privacy { font-size: 13px; margin-top: 8px; text-wrap: balance; }
 #subscribe-box .formkit-form { max-width: 100% !important; width: 100% !important; margin: 0 auto !important; background: var(--card) !important; border: 2.5px solid var(--line) !important; border-radius: 28px 12px 30px 14px / 14px 30px 12px 28px !important; box-shadow: none !important; font-family: var(--font) !important; color: var(--ink) !important; overflow: hidden; }
 #subscribe-box .formkit-form .formkit-background { background: transparent !important; opacity: 0 !important; }
 #subscribe-box .formkit-form [data-style="minimal"], #subscribe-box .formkit-form > div { font-family: var(--font) !important; }
-#subscribe-box .formkit-form h2, #subscribe-box .formkit-form .formkit-header * { font-family: var(--font) !important; font-weight: 400 !important; color: var(--coffee) !important; letter-spacing: 0.04em; }
+#subscribe-box .formkit-form h2, #subscribe-box .formkit-form .formkit-header * { font-family: var(--font) !important; font-weight: 400 !important; font-size: 22px !important; line-height: 1.4 !important; color: var(--coffee) !important; letter-spacing: 0.04em; }
+#subscribe-box .formkit-form .formkit-subheader, #subscribe-box .formkit-form .formkit-subheader * { font-size: 15px !important; line-height: 1.7 !important; }
 #subscribe-box .formkit-form .formkit-subheader, #subscribe-box .formkit-form .formkit-subheader * { font-family: var(--font) !important; color: var(--muted) !important; }
 #subscribe-box .formkit-form .formkit-input { font-family: var(--font) !important; font-size: 16px !important; color: var(--ink) !important; background: var(--paper) !important; border: 2.5px solid var(--line) !important; border-radius: 16px 10px 18px 12px / 12px 18px 10px 16px !important; box-shadow: none !important; }
 #subscribe-box .formkit-form .formkit-input::placeholder { color: var(--muted) !important; opacity: 0.8; }
@@ -433,20 +434,6 @@ footer .privacy { font-size: 13px; margin-top: 8px; text-wrap: balance; }
     <p class="whatif" id="whatif"></p>
   </section>
 
-  <section class="about" aria-label="關於這個數字">
-    <p>這裡用的是出生時的平均壽命。</p>
-    <p><span>已經活到現在這個年紀的人，</span><span>平均還會再活得更久一些，</span><span>所以實際可能比算出來的多。</span></p>
-    <p>想抓寬一點，就把預期壽命往上加。</p>
-    <p class="last"><span>數字是用來提醒自己安排時間，</span><span>不是在預測誰的人生。</span></p>
-  </section>
-
-  <section class="subscribe" aria-label="訂閱電子報">
-    <div id="subscribe-box" class="subscribe-box">
-      <script async data-uid="3fce44a641" src="https://ehmily.kit.com/3fce44a641/index.js"></script>
-    </div>
-    <p id="subscribe-fallback" class="note" hidden>訂閱表單沒有顯示的話，請關閉廣告攔截器後重新整理頁面。</p>
-  </section>
-
   <section class="card share" aria-label="分享結果">
     <h2>分享給想一起算的人</h2>
     <div class="seg" role="group" aria-label="圖片尺寸">
@@ -470,6 +457,20 @@ footer .privacy { font-size: 13px; margin-top: 8px; text-wrap: balance; }
     <div class="made">made by <a href="https://www.instagram.com/iam.ehmily/" target="_blank" rel="noopener">欸米粒 Em!ly</a></div>
     <div class="privacy">這個頁面只統計瀏覽和按鈕點擊的次數。你輸入的年齡和稱呼不會被傳出去。訂閱表單由 Kit 提供，只會收到你填的 email。</div>
   </footer>
+
+  <section class="about" aria-label="關於這個數字">
+    <p>這裡用的是出生時的平均壽命。</p>
+    <p><span>已經活到現在這個年紀的人，</span><span>平均還會再活得更久一些，</span><span>所以實際可能比算出來的多。</span></p>
+    <p>想抓寬一點，就把預期壽命往上加。</p>
+    <p class="last"><span>數字是用來提醒自己安排時間，</span><span>不是在預測誰的人生。</span></p>
+  </section>
+
+  <section class="subscribe" aria-label="訂閱電子報">
+    <div id="subscribe-box" class="subscribe-box">
+      <script async data-uid="3fce44a641" src="https://ehmily.kit.com/3fce44a641/index.js"></script>
+    </div>
+    <p id="subscribe-fallback" class="note" hidden>訂閱表單沒有顯示的話，請關閉廣告攔截器後重新整理頁面。</p>
+  </section>
 </main>
 
 <div class="live" id="live" hidden>
