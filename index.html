@@ -41,6 +41,8 @@
   --grain: 0.32;
   --chip: rgba(255, 255, 255, 0.35);
   --peach-fill: #D9A27E;
+  --sel: #9a5836;
+  --link: #8f5233;
   --font: 'Huninn', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
 }
 @media (prefers-color-scheme: dark) {
@@ -59,6 +61,8 @@
     --grain: 0.18;
     --chip: rgba(255, 255, 255, 0.07);
     --peach-fill: #8A5E45;
+    --sel: var(--clay);
+    --link: var(--coffee);
     color-scheme: dark;
   }
 }
@@ -77,6 +81,8 @@
   --grain: 0.18;
   --chip: rgba(255, 255, 255, 0.07);
   --peach-fill: #8A5E45;
+    --sel: var(--clay);
+    --link: var(--coffee);
   color-scheme: dark;
 }
 
@@ -140,7 +146,7 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
 
 .seg { display: flex; gap: 8px; }
 .seg button { padding: 6px 18px; border-radius: 22px 14px 24px 12px / 14px 24px 12px 22px; font-size: 16px; }
-.seg button[aria-pressed="true"] { background: var(--clay); color: var(--paper); }
+.seg button[aria-pressed="true"] { background: var(--sel); color: var(--paper); }
 
 .base { font-size: 14px; color: var(--muted); }
 .base b { font-weight: 400; color: var(--ink); }
@@ -150,7 +156,7 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
 
 .ref { text-align: center; font-size: 14px; color: var(--muted); margin: 0; text-wrap: balance; }
 .ref b { font-weight: 400; color: var(--ink); }
-.ref a, footer a { color: var(--coffee); text-underline-offset: 4px; text-decoration-thickness: 2px; }
+.ref a, footer a { color: var(--link); text-underline-offset: 4px; text-decoration-thickness: 2px; }
 
 .hero { text-align: center; }
 .hero .kicker { margin: 0; color: var(--muted); }
@@ -475,7 +481,7 @@ footer .privacy { font-size: 13px; margin-top: 8px; text-wrap: balance; }
 
   <footer>
     <div class="made">made by <a href="https://www.instagram.com/iam.ehmily/" target="_blank" rel="noopener">欸米粒 Em!ly</a></div>
-    <div class="privacy">這個頁面只統計瀏覽和按鈕點擊的次數。你輸入的年齡和稱呼不會被傳出去。訂閱表單由 Kit 提供，只會收到你填的 email。</div>
+    <div class="privacy">這個頁面只統計瀏覽和按鈕點擊的次數。你輸入的年齡和稱呼不會被傳出去。訂閱表單由 Kit 提供，只會收到你填的 email，Kit 也會記錄表單的瀏覽次數。字型來自 Google Fonts。</div>
   </footer>
 </main>
 
@@ -566,7 +572,8 @@ footer .privacy { font-size: 13px; margin-top: 8px; text-wrap: balance; }
 
     $('r-both').textContent = both;
     $('r-any').textContent = any + ' 次';
-    $('r-days').textContent = (both * days) + ' 天';
+    var totalDays = Math.min(both * days, Math.floor(bothYears * 365));
+    $('r-days').textContent = totalDays + ' 天';
     $('r-pct').textContent = fmt1(pct) + '%';
     $('r-years').textContent = fmt1(bothYears) + ' 年';
 
@@ -592,7 +599,7 @@ footer .privacy { font-size: 13px; margin-top: 8px; text-wrap: balance; }
       : '';
 
     $('live-n').textContent = both;
-    share.data = { both: both, any: any, single: single, who: who, perYear: perYear, days: days };
+    share.data = { both: both, any: any, single: single, who: who, perYear: perYear, days: days, totalDays: totalDays };
     scheduleShare();
   }
 
@@ -610,7 +617,7 @@ footer .privacy { font-size: 13px; margin-top: 8px; text-wrap: balance; }
     var t = e.target;
     if (t.hasAttribute && t.hasAttribute('data-name')) {
       var k = t.getAttribute('data-name');
-      state[k].name = t.value.trim() || (k === 'dad' ? '爸爸' : '媽媽');
+      state[k].name = t.value.trim().slice(0, 8) || (k === 'dad' ? '爸爸' : '媽媽');
       render();
       return;
     }
@@ -738,7 +745,7 @@ footer .privacy { font-size: 13px; margin-top: 8px; text-wrap: balance; }
 
     ink(d.single ? '回家見 ' + whoLabel(d) : '回家見 ' + whoLabel(d) + '（兩位都在）', L.who, 54, C.ink);
     ink('一年回家 ' + fmt1(d.perYear) + ' 次・一次 ' + d.days + ' 天', L.freq, 44, C.muted);
-    if (d.both > 0) ink('加起來大約 ' + (d.both * d.days) + ' 天', L.days, 44, C.muted);
+    if (d.both > 0) ink('加起來大約 ' + d.totalDays + ' 天', L.days, 44, C.muted);
 
     var n = Math.min(d.any, 60), step = 46, perRow = Math.floor((W - 200) / step), rows = Math.ceil(n / perRow);
     for (i = 0; i < n; i++) {
